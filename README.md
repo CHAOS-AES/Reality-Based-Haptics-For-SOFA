@@ -1,4 +1,4 @@
-# userStudyMeniscus
+# Reality Based Haptics for SOFA
 Files for conducting user study on meniscus examination and arthroscopic portal creation.
 
 To install necessary dependencies:
