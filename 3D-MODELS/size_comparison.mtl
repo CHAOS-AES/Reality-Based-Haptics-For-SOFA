@@ -1,0 +1,20 @@
+# 
+# Wavefront material file
+# Created with Kaydara FBX
+# 
+
+newmtl Size_comparisonMaterial0
+Ka 0.501961 0.635279 0.705882
+Kd 0.501961 0.635279 0.705882
+Ks 0.000000 0.000000 0.000000
+illum 2
+Ns 20.000000
+Tr 1.000000
+
+newmtl Size_comparisonMaterial1
+Ka 0.596063 0.666667 0.686259
+Kd 0.596063 0.666667 0.686259
+Ks 0.000000 0.000000 0.000000
+illum 2
+Ns 20.000000
+Tr 1.000000
