@@ -1,5 +1,5 @@
 # Reality Based Haptics for SOFA
-Files for conducting user study on meniscus examination and arthroscopic portal creation.
+Files for conducting user study on meniscus examination and arthroscopic portal creation using the reality based method.
 
 To install necessary dependencies:
 1. Install SOFA: https://www.sofa-framework.org/community/doc/getting-started/build/windows/
