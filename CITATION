@@ -1,9 +1,0 @@
-cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-authors:
-- family-names: "Bjelland"
-  given-names: "Øystein"
-  orcid: "https://orcid.org/0000-0002-2581-9843"
-title: "Reality-Based Haptics for SOFA"
-date-released: 2025-04-30
-url: "https://github.com/CHAOS-AES/Reality-Based-Haptics-For-SOFA"
