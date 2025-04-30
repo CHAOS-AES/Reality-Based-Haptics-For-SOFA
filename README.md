@@ -1,5 +1,8 @@
-# Reality Based Haptics for SOFA
-Files for conducting user study on meniscus examination and arthroscopic portal creation using the reality based method.
+# Reality-Based Haptics for SOFA
+Files for conducting user study on meniscus examination and arthroscopic portal creation using the reality based method. Please see paper for details. 
+
+![image](https://github.com/user-attachments/assets/337e9c21-9a58-4a6f-82fb-3328a900ed87)
+
 
 Disclaimer: The code is developed for SOFA v22. Parts of the code may not be compatible with later versions of SOFA.
 
