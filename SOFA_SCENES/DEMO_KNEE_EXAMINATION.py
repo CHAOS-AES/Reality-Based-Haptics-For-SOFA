@@ -20,11 +20,7 @@ import Sofa.Core
 import Sofa
 import SofaRuntime
 import time
-from scipy import sparse
-from scipy import linalg
-from matplotlib import pyplot as plt
 import numpy as np
-from functools import wraps
 
 from kalmanFilterForce1d import kalmanFilter
 from getEmpiricalForces import getProbingForces
@@ -71,7 +67,6 @@ useInstrumentPosition = False
 def createScene(rootNode):
      
     rootNode.dt=0.01 #0.01, 0.05, 0.005
-    #rootNode.gravity=[0, -9.81e03, 0] 
     rootNode.gravity=[0, -9.81e3, 0] 
 
     confignode = rootNode.addChild("Config")
@@ -80,26 +75,11 @@ def createScene(rootNode):
     confignode.addObject('OglSceneFrame', style="Arrows", alignment="TopRight")
     
     if carving == True:
-        #rootNode.addObject('DefaultVisualManagerLoop')
-        #rootNode.addObject('DefaultAnimationLoop')
-        #rootNode.addObject('FreeMotionAnimationLoop')
-        #rootNode.addObject('CollisionPipeline', verbose=False, draw=False)
-        #rootNode.addObject('BruteForceBroadPhase')
-        #rootNode.addObject('BVHNarrowPhase', name="narrowPhase")  
-        #rootNode.addObject('ParallelBruteForceBroadPhase')
-        #rootNode.addObject('ParallelBVHNarrowPhase', name="narrowPhase")    
-        
-        #rootNode.addObject('DefaultContactManager', name="response", response="FrictionContactConstraint") #responseParams="mu=0.1")
-        #rootNode.addObject('LocalMinDistance', alarmDistance="3.14", contactDistance="1.14", angleCone="0.0")
-        #rootNode.addObject('LocalMinDistance', alarmDistance="3.408", contactDistance="1.136", angleCone="0.0")
-        
-        #LCP = rootNode.addObject('LCPConstraintSolver', tolerance="0.001", maxIt="1000", computeConstraintForces="True", mu="0.000001")
 
         rootNode.addObject('DefaultVisualManagerLoop')
         rootNode.addObject('DefaultPipeline', name="pipeline", depth="6", verbose="0")
         rootNode.addObject('ParallelBruteForceBroadPhase')
         rootNode.addObject('ParallelBVHNarrowPhase')
-        #rootNode.addObject('MinProximityIntersection', name="Proximity", alarmDistance=0.08, contactDistance=0.05, useSurfaceNormals=False)
         rootNode.addObject('DefaultContactManager', name="response", response="FrictionContactConstraint") #responseParams="mu=0.1")
         rootNode.addObject('LocalMinDistance', alarmDistance="3.408", contactDistance="1.136", angleCone="0.0")
         rootNode.addObject('FreeMotionAnimationLoop')
@@ -115,7 +95,6 @@ def createScene(rootNode):
         rootNode.addObject('BruteForceBroadPhase')
         rootNode.addObject('BVHNarrowPhase')
         rootNode.addObject('DefaultContactManager', name="response", response="FrictionContactConstraint") #responseParams="mu=0.1")
-        #rootNode.addObject('LocalMinDistance', alarmDistance="3.14", contactDistance="1.14", angleCone="0.0")
         rootNode.addObject('LocalMinDistance', alarmDistance="3.408", contactDistance="1.136", angleCone="0.0")
         rootNode.addObject('FreeMotionAnimationLoop')
         LCP = rootNode.addObject('LCPConstraintSolver', tolerance="0.001", maxIt="1000", computeConstraintForces="True", mu="0.000001")
@@ -124,7 +103,6 @@ def createScene(rootNode):
     #Camera
     rootNode.addObject('RequiredPlugin', name='Sofa.Component.Visual')
     rootNode.addObject('RequiredPlugin', name='Sofa.GL.Component.Rendering3D')
-    #rootNode.addObject('OglSceneFrame', name='sceneFrame', backgroundColor=[0.0, 0.0, 0.0, 1.0])  # RGBA, black
     rootNode.addObject('InteractiveCamera',name='camera') #, position='0 0 500', orientation='0 0 0', fovy='60', znear='1', zfar='1000') 
     rootNode.camera.position.value = [-350,30,-50]
 
@@ -178,8 +156,6 @@ def createScene(rootNode):
         medialSkin.addObject('EulerImplicitSolver',name="cg_odesolver", rayleighStiffness=0.1, rayleighMass=0.1)#, printLog=False, rayleighStiffness=0.1, rayleighMass=0.1)
         medialSkin.addObject('CGLinearSolver', name="linear solver", iterations=25, tolerance=1.0e-9, threshold=1.0e-9)
         medialSkin.addObject('MeshGmshLoader', name="loader", filename="mesh/SKIN_Computation_Model_.msh", rotation="-85 277 -185", translation="120 105 -80", scale3d="0.0545 0.0545 0.0545")
-        #medialSkin.addObject('MeshGmshLoader', name="loader", filename="mesh/SKIN_Computation_Model_fine.msh", rotation="-85 277 -185", translation="120 105 -80", scale3d="0.0545 0.0545 0.0545")
-
 
         medialSkinDofs = medialSkin.addObject('MechanicalObject', template="Vec3d", name="Volume", src="@loader")
         
@@ -189,12 +165,9 @@ def createScene(rootNode):
         
         medialSkin.addObject('DiagonalMass', massDensity=1.09e-9)
         medialSkin.addObject('FixedConstraint', indices=[0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 40, 41, 42, 43, 44, 45, 73, 74, 75, 76, 77, 80, 81, 98, 119, 123, 125, 130, 150, 151, 163, 176, 178, 180, 182, 189, 194, 196, 199, 202, 213, 216, 291, 301, 305, 319])
-        #medialSkin.addObject('FixedConstraint', indices=[0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 38, 39, 40, 41, 42, 43, 44, 45, 47, 48, 49, 50, 51, 73, 74, 75, 76, 77, 80, 81, 98, 118, 119, 120, 123, 124, 125, 129, 130, 150, 151, 163, 176, 178, 180, 182, 189, 194, 196, 199, 202, 213, 216, 291, 301, 305, 319])
         medialSkin.addObject('TetrahedralCorotationalFEMForceField', name="CFEM", youngModulus=15, poissonRatio=0.3, method="large")
         
-        #medialSkin.addObject('UncoupledConstraintCorrection') #Efficient, inaccurate with coupled constraints
-        #medialSkin.addObject('SparseLDLSolver', template='CompressedRowSparseMatrixMat3x3d')
-        #medialSkin.addObject('LinearSolverConstraintCorrection')   #Accurate. Inefficient with many constraints.
+        #medialSkin.addObject('LinearSolverConstraintCorrection')  
         medialSkin.addObject('PrecomputedConstraintCorrection', recompute="true") 
 
         # Add corresponding surface topology
@@ -223,7 +196,6 @@ def createScene(rootNode):
         #Portal collision model
         portalCollision = medialPortal.addChild('portalCollisionModel')
         portalCollision.addObject('MeshOBJLoader', name="loader", filename="mesh/torus.obj", triangulate = "true", rotation="-20 180 120", translation="-80 -28 0", scale3d="4.5 4.5 4.5") #triangulate="true", scale=50)
-        #portalCollision.addObject('MeshOBJLoader', name="loader", filename="mesh/torus_for_collision.obj", triangulate = "true", rotation="0 180 90", translation="-65 -28 0", scale3d="4.5 4.5 4.5")
         portalCollision.addObject('MeshTopology', src="@loader", name="portalCollisionModel")
         portalCollision.addObject('MechanicalObject', src="@loader", name="portalState")
         portalCollision.addObject('TriangleCollisionModel', contactStiffness="4.4e-4", simulated="0", moving="0")
@@ -274,8 +246,6 @@ def createScene(rootNode):
         ACL.addObject('MechanicalObject', name="ACLDofs", src="@meshLoaderACL")
         ACL.addObject('TetrahedronSetGeometryAlgorithms', template="Vec3d", name="GeomAlgo")
         ACL.addObject('DiagonalMass', name="mass", massDensity="1.09e-09", topology="@topo", geometryState="@ACLDofs")
-        #ACL.addObject('MeshMatrixMass', name="mass", massDensity="10.9e-03", topology="@topo", geometryState="@ACLDofs")
-        #ACL.addObject('TetrahedronFEMForceField', template="Vec3d", name="FEM", method="large", poissonRatio="0.3", youngModulus="150", computeGlobalMatrix="0")
         ACL.addObject('TetrahedralCorotationalFEMForceField', template="Vec3d", name="FEM", poissonRatio="0.3", youngModulus="30")
         ACL.addObject('PrecomputedConstraintCorrection', recompute="true")
         ACL.addObject('FixedConstraint', name="FixedConstraint", indices="2 3 10 11 12")
@@ -300,33 +270,12 @@ def createScene(rootNode):
     #PCL NODE BEGIN**************************************************************************************************************************************************************************
     if addPCL == True:
         PCL = rootNode.addChild('PCL')
-        #PCL.gravity = [0, -9.81e-03, 0]
-        # PCL.addObject('EulerImplicitSolver', name="cg_odesolver")
-        # PCL.addObject('CGLinearSolver', name="linear solver", iterations="25", tolerance="1e-09", threshold="1e-09")
-        # #PCL.addObject('MeshGmshLoader', name="meshLoaderPCL", filename="mesh/PCL_ComputationModel.msh", rotation="0 180 30", translation="0 0 0", scale3d="0.5 0.5 0.5" )
-        # PCL.addObject('MeshGmshLoader', name="meshLoaderPCL", filename="mesh/PCL_ComputationModel.msh", rotation="0 180 30", translation="-3 2 5", scale3d="11.36 11.36 11.36" )
-        # PCL.addObject('TetrahedronSetTopologyContainer', name="topo", position="0 0 0    0.542 0.455 0.542 0.455",  src="@meshLoaderPCL")
-        # PCL.addObject('MechanicalObject', name="PCLDofs", src="@meshLoaderPCL")
-        # PCL.addObject('TetrahedronSetGeometryAlgorithms', template="Vec3d", name="GeomAlgo")
-        # PCL.addObject('DiagonalMass', name="mass", massDensity="1.09e-09", topology="@topo", geometryState="@PCLDofs") 
-        # #PCL.addObject('TetrahedronFEMForceField', template="Vec3d", name="FEM", method="large", poissonRatio="0.3", youngModulus="150", computeGlobalMatrix="0")
-        # PCL.addObject('TetrahedralCorotationalFEMForceField', template="Vec3d", name="FEM", poissonRatio="0.3", youngModulus="30")
-        # PCL.addObject('PrecomputedConstraintCorrection', recompute="true")
-        # PCL.addObject('FixedConstraint', name="FixedConstraint", indices="1 2 3 6 19 30 33 38 63 86 101")
 
         #PCL visual model
         PCLVisual = PCL.addChild('PCL Visual Model') # Check if gravity and tags="Visual" should be added here
         PCLVisual.addObject('MeshOBJLoader', name="meshLoaderPCL2", filename="mesh/PCL_VISUAL.obj", rotation="-85 277 -185", translation="120 105 -80", scale3d="0.0545 0.0545 0.0545", handleSeams="1")
         #PCLVisual.addObject('MeshOBJLoader', name="meshLoaderPCL2", filename="mesh/PCL.obj", rotation="0 180 30", translation="0 0 0", scale3d="11.36 11.36 11.36", handleSeams="1")
         PCLVisual.addObject('OglModel', name="VisualModel", src="@meshLoaderPCL2", color="1.0 0.2 0.2 1.0")
-        #PCLVisual.addObject('BarycentricMapping', name="visual mapping", input="@../PCLDofs", output="@VisualModel")
-
-        #PCL collision model (extracts triangular mesh from computation model)
-        # PCLcollision = PCL.addChild('PCL Collision Model')
-        # PCLcollision.addObject('TriangleSetTopologyContainer', name="Container")
-        # PCLcollision.addObject('TriangleSetTopologyModifier', name="Modifier")
-        # PCLcollision.addObject('Tetra2TriangleTopologicalMapping', input="@../topo", output="@Container")
-        # PCLcollision.addObject('TriangleCollisionModel', name="CollisionModel", contactStiffness="1")
 
     #ACL NODE END****************************************************************************************************************************************************************************
 
@@ -349,7 +298,6 @@ def createScene(rootNode):
 
         #Add boundary conditions (missing collision between bone and meniscus)
         medialMeniscus.addObject('FixedConstraint', name="FixedConstraint", indices="3 30 33 35 38 40 41 42 43 44 45 46 47 50 52 53 55 61 69 70 71 72 73 74 75 76 77 78 79 80 81 83 84 85 86 88 89 90 91 92 94 115 116 117 119 121 122 143 147 148 150 249")
-        #medialMeniscus.addObject('FixedConstraint', name="FixedConstraint", indices="2 5 7 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87")
 
         #Medial meniscus visual model
         medialMeniscusVisual = medialMeniscus.addChild('Medial Meniscus Visual Model') # Check if gravity and tags="Visual" should be added here
@@ -384,9 +332,7 @@ def createScene(rootNode):
         lateralMeniscus.addObject('TetrahedralCorotationalFEMForceField', template="Vec3d", name="FEM", poissonRatio="0.3", youngModulus="3")
         lateralMeniscus.addObject('PrecomputedConstraintCorrection', recompute="true")
 
-        #Add boundary conditions (missing collision between bone and meniscus)
-        #lateralMeniscus.addObject('FixedConstraint', name="FixedConstraint", indices="70 72 73 74 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 103 104 110 120 121 127 128 129 130 275 274 273 271")
-        #lateralMeniscus.addObject('FixedConstraint', name="FixedConstraint", indices="1 129 130 132 70 74 271 273 93")
+        #Add boundary conditions 
         lateralMeniscus.addObject('FixedConstraint', name="FixedConstraint", indices="2 6 7 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 73")
 
         #Lateral meniscus visual model
@@ -453,14 +399,6 @@ def createScene(rootNode):
         cartilageVisu.addObject('MeshOBJLoader', name="loader", filename="mesh/CARTILAGE3.obj", rotation="-85 277 -185", translation="120 105 -80", scale3d="0.0545 0.0545 0.0545") #Only for visualization purposes
         cartilageVisu.addObject('OglModel', name="CartilageVisualModel", src="@loader", color="0.6 0.5 0.4 1.0") #scale3d="50 50 50", color="1 1 1", updateNormals=False)
 
-        #Cartilage collision model
-        #cartilageCollision = cartilage.addChild('cartilageCollision')
-        #cartilageCollision.addObject('MeshOBJLoader', name="loader", filename="mesh/cartilage2.obj", rotation="0 176 0", translation="75 -93 50", scale3d="0.5 0.5 0.5") #triangulate="true", scale=50)
-        #cartilageCollision.addObject('MeshTopology', src="@loader", name="CartilageCollisionModel")
-        #cartilageCollision.addObject('MechanicalObject', src="@loader", name="CartilageState")
-        #cartilageCollision.addObject('TriangleCollisionModel', contactStiffness="1e-3", simulated="0", moving="0")
-        #cartilageCollision.addObject('LineCollisionModel', contactStiffness="1e-3", simulated="0", moving="0")
-        #cartilageCollision.addObject('PointCollisionModel', contactStiffness="1e-3", simulated="0", moving="0")
     #CARTILAGE NODE END****************************************************************************************************************************************************************************
 
     #COLLATERAL LIGAMENTS NODE BEGIN**************************************************************************************************************************************************************************
@@ -469,7 +407,6 @@ def createScene(rootNode):
 
         #Skin visual model
         collateralVisual = collateralLigaments.addChild('collateralVisualModel')
-        #collateralVisual.addObject('MeshOBJLoader', name="loader", filename="mesh/collateralLigaments.obj", rotation="-85 277 0", translation="-161 -128 -138", scale3d="0.91 0.91 0.91") #, handleSeams="1")
         collateralVisual.addObject('MeshOBJLoader', name="loader", filename="mesh/COLLATERAL_LIGAMENTS.obj", rotation="-85 277 -185", translation="120 105 -80", scale3d="0.0545 0.0545 0.0545") #, handleSeams="1")
         collateralVisual.addObject('OglModel', name="collateralVisualModel", src="@loader", color="0.8 0.3 0.3 1.0") 
 
@@ -481,7 +418,6 @@ def createScene(rootNode):
 
         #Skin visual model
         muscleVisual = muscle.addChild('muscleVisualModel')
-        #muscleVisual.addObject('MeshOBJLoader', name="loader", filename="mesh/muscle.obj", rotation="-85 277 0", translation="-161 -128 -138", scale3d="1 1 1") #, handleSeams="1")
         muscleVisual.addObject('MeshOBJLoader', name="loader", filename="mesh/muscle2.obj", rotation="-85 277 -185", translation="120 105 -80", scale3d="0.0545 0.0545 0.0545") #, handleSeams="1")
         muscleVisual.addObject('OglModel', name="muscleVisualModel", src="@loader", color="0.6 0.3 0.3 1.0") 
 
@@ -541,7 +477,6 @@ def createScene(rootNode):
         instrument = rootNode.addChild('Instrument')
         instrument.addObject('EulerImplicitSolver', name="ODE solver") 
         instrument.addObject('SparseLDLSolver', template='CompressedRowSparseMatrixMat3x3d')
-        #instrument.addObject('CGLinearSolver', name="linear solver", iterations="25", tolerance="1.0e-9", threshold="1.0e-9")
         instrumentStates = instrument.addObject('MechanicalObject', name='instrumentState', template='Rigid3d')
         instrument.addObject('UniformMass', name="mass", totalMass="3.5e-05") #[kg] 3.5e-05 Mass of instrument measured to be 35 g. 
         #instrument.addObject('DiagonalMass', name="mass", massDensity="3.5e-05", topology="@topo", geometryState="@instrumentState") #
@@ -629,15 +564,12 @@ class MatrixAccessController(Sofa.Core.Controller):
 
         #Define haptic cutting data
         self.portalData = np.genfromtxt('portalDataSofa.txt', delimiter='\t')
-        #self.portalData = np.genfromtxt('portalData_LK1_medial.txt', delimiter=',')
         self.cuttingForceMagnitude = self.portalData[:,2]
         self.tearPoint = 10/3 #mm
         self.cuttingDisplacement = np.linspace(0, self.tearPoint, len(self.cuttingForceMagnitude))
 
-        #self.cuttingPointStart = 0
         self.initialContactForceDirection = np.zeros((1,3))
         self.initialReactionForceVector = np.zeros((1,3))
-        #self.cutFinished = False
         self.cutting = False
         self.cuttingTime = 0
 
@@ -657,20 +589,11 @@ class MatrixAccessController(Sofa.Core.Controller):
         self.measurementTime += dt
 
         #STEP 0: Initialize
-        #constraint = self.target.getData("constraint") 
         constraint = self.target.constraint.value
-        #constraint2 = self.target5.constraint.value
         forcesNorm = self.target2.constraintForces.value
         instrumentPosition = self.target3.getData("position")
         GeomagicDevice = self.rootNode.GeomagicDevice
         instrumentVelocityX = self.target5.velocity.value[0]
-        #dt = self.rootNode.dt.value
-        
-        #Detect which anatomy is in contact
-        #if len(constraint2) > 0:
-        #    constraint = constraint2
-        #else:
-        #    constraint = constraint
 
         constraintMatrixInline = np.fromstring(constraint, sep='  ')
 
@@ -757,7 +680,6 @@ class MatrixAccessController(Sofa.Core.Controller):
             reactionForceVector = np.array(([contactforce_x, contactforce_y, contactforce_z]))
             reactionForceVector = np.reshape(reactionForceVector, (1,3))
         
-        #reactionForceVector = reactionForceVector*(1/30) #compensate for haptic device scale
         #print('Reaction Force Vector: ' + str(reactionForceVector))
 
         #CALCULATE CONTACT FORCES END*********************************************************************************************************************************

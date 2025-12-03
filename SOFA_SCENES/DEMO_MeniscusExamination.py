@@ -19,11 +19,8 @@ import Sofa.Core
 import Sofa
 import SofaRuntime
 import time
-from scipy import sparse
-from scipy import linalg
 from matplotlib import pyplot as plt
 import numpy as np
-from functools import wraps
 
 from kalmanFilterForce1d import kalmanFilter
 from getEmpiricalForces import getProbingForces
@@ -66,13 +63,11 @@ def createScene(rootNode):
     rootNode.addObject('LocalMinDistance', alarmDistance="3.408", contactDistance="1.136", angleCone="0.0")
     rootNode.addObject('FreeMotionAnimationLoop') #, parallelCollisionDetectionAndFreeMotion = True, parallelODESolving = True)
     LCP = rootNode.addObject('LCPConstraintSolver', tolerance="0.001", maxIt="1000", computeConstraintForces="True", mu="0.000001")
-    #LCP = rootNode.addObject('GenericConstraintSolver', name="GCS", maxIt=1000, tolerance=0.001, computeConstraintForces=True)
-
 
     #Camera
     rootNode.addObject('RequiredPlugin', name='Sofa.Component.Visual')
     rootNode.addObject('RequiredPlugin', name='Sofa.GL.Component.Rendering3D')
-    rootNode.addObject('InteractiveCamera',name='camera') #, position='0 0 500', orientation='0 0 0', fovy='60', znear='1', zfar='1000') 
+    rootNode.addObject('InteractiveCamera',name='camera') 
     rootNode.camera.position.value = [-150,30,0]
 
     #Haptics
