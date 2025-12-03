@@ -1,0 +1,30 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Reality-Based Haptics for SOFA
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Bjelland
+    family-names: Øystein
+    email: oystein.bjelland@ntnu.no
+    name-particle: Øystein
+    affiliation: Norwegian University of Science and Technology
+    orcid: 'https://orcid.org/0000-0002-2581-9843'
+repository-code: >-
+  https://github.com/CHAOS-AES/Reality-Based-Haptics-For-SOFA
+abstract: >-
+  Files for conducting user study on meniscus examination
+  and arthroscopic portal creation using the reality based
+  method. Please see paper for details.
+keywords:
+  - Haptic feedback
+  - Biomechanics
+  - SOFA
+  - Surgery
+  - Simulation
+license: LGPL-2.1
+date-released: '2025-04-30'
