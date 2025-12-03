@@ -1,5 +1,6 @@
 # Reality-Based Haptics for SOFA
 Simulation scenes with implementation examples for conducting user study on meniscus examination and arthroscopic portal creation using the reality based method. Haptic feedback using 3D systems touch haptic device.
+More details in paper "Haptic Rendering Using Reality-Based Force Profiles in Surgical Simulation": https://ieeexplore.ieee.org/abstract/document/11006002/ 
 
 ![image](https://github.com/user-attachments/assets/337e9c21-9a58-4a6f-82fb-3328a900ed87)
 
